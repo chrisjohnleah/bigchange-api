@@ -4,6 +4,12 @@
     "description": "Framework-agnostic Saloon SDK for the BigChange REST API.",
     "type": "library",
     "license": "MIT",
+    "homepage": "https://github.com/chrisjohnleah/bigchange-api",
+    "keywords": ["bigchange", "jobwatch", "api", "sdk", "saloon", "field-service"],
+    "support": {
+        "issues": "https://github.com/chrisjohnleah/bigchange-api/issues",
+        "source": "https://github.com/chrisjohnleah/bigchange-api"
+    },
     "require": {
         "php": "^8.3",
         "saloonphp/saloon": "^4"

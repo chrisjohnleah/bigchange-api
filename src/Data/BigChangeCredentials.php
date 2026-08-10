@@ -10,6 +10,8 @@ final readonly class BigChangeCredentials
 {
     public const API_BASE_URL = 'https://api.bigchange.com/v1';
 
+    public const ASSET_MANAGEMENT_API_BASE_URL = 'https://api.bigchange.com/asset-management/v1';
+
     public const TOKEN_URL = 'https://api.bigchange.com/auth/tokens';
 
     public function __construct(
@@ -19,13 +21,14 @@ final readonly class BigChangeCredentials
         public string $apiBaseUrl = self::API_BASE_URL,
         public string $tokenUrl = self::TOKEN_URL,
         public ?string $scope = null,
+        public string $assetManagementApiBaseUrl = self::ASSET_MANAGEMENT_API_BASE_URL,
     ) {
         if ($this->clientId === '' || $this->clientSecret === '' || $this->customerId === '') {
             throw new InvalidArgumentException('BigChange client ID, client secret, and customer ID are required.');
         }
 
-        if ($this->apiBaseUrl === '' || $this->tokenUrl === '') {
-            throw new InvalidArgumentException('BigChange API and token URLs are required.');
+        if ($this->apiBaseUrl === '' || $this->tokenUrl === '' || $this->assetManagementApiBaseUrl === '') {
+            throw new InvalidArgumentException('BigChange API, asset-management API, and token URLs are required.');
         }
     }
 
@@ -41,6 +44,7 @@ final readonly class BigChangeCredentials
             apiBaseUrl: rtrim((string) ($values['api_base_url'] ?? $values['apiBaseUrl'] ?? self::API_BASE_URL), '/'),
             tokenUrl: (string) ($values['token_url'] ?? $values['tokenUrl'] ?? self::TOKEN_URL),
             scope: isset($values['scope']) && (string) $values['scope'] !== '' ? (string) $values['scope'] : null,
+            assetManagementApiBaseUrl: rtrim((string) ($values['asset_management_api_base_url'] ?? $values['assetManagementApiBaseUrl'] ?? self::ASSET_MANAGEMENT_API_BASE_URL), '/'),
         );
     }
 

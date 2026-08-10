@@ -45,6 +45,11 @@ final class BigChangeClient extends Connector
         return $this->credentials->apiBaseUrl;
     }
 
+    public function assetManagementClient(): BigChangeAssetClient
+    {
+        return new BigChangeAssetClient($this->credentials, $this->accessTokenAuthenticator->getAccessToken());
+    }
+
     protected function defaultAuth(): ?Authenticator
     {
         return $this->accessTokenAuthenticator;
@@ -76,6 +81,36 @@ final class BigChangeClient extends Connector
     public function contacts(array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
     {
         return $this->page('contacts', $query, $pageNumber, $pageSize);
+    }
+
+    /** @param array<string, mixed> $query */
+    public function contactGroups(array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    {
+        return $this->page('contactGroups', $query, $pageNumber, $pageSize);
+    }
+
+    /** @param array<string, mixed> $query */
+    public function departmentCodes(array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    {
+        return $this->page('departmentCodes', $query, $pageNumber, $pageSize);
+    }
+
+    /** @param array<string, mixed> $query */
+    public function flags(array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    {
+        return $this->page('flags', $query, $pageNumber, $pageSize);
+    }
+
+    /** @param array<string, mixed> $query */
+    public function nominalCodes(array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    {
+        return $this->page('nominalCodes', $query, $pageNumber, $pageSize);
+    }
+
+    /** @param array<string, mixed> $query */
+    public function vatCodes(array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    {
+        return $this->page('vatCodes', $query, $pageNumber, $pageSize);
     }
 
     /** @param array<string, mixed> $query */
@@ -163,9 +198,9 @@ final class BigChangeClient extends Connector
     }
 
     /** @param array<string, mixed> $query */
-    public function timesheets(array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    public function resourceTimesheets(string|int $resourceId, array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
     {
-        return $this->page('timesheets', $query, $pageNumber, $pageSize);
+        return $this->page('resources/'.$this->pathSegment($resourceId).'/timesheets', $query, $pageNumber, $pageSize);
     }
 
     /** @param array<string, mixed> $query */
@@ -192,6 +227,27 @@ final class BigChangeClient extends Connector
     public function jobWorksheets(string|int $jobId, array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
     {
         return $this->page('jobs/'.$this->pathSegment($jobId).'/worksheets', $query, $pageNumber, $pageSize);
+    }
+
+    /** @param array<string, mixed> $query */
+    public function worksheetAnswers(array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    {
+        return $this->page('worksheetAnswers', $query, $pageNumber, $pageSize);
+    }
+
+    public function jobConstraints(string|int $jobId, array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    {
+        return $this->page('jobs/'.$this->pathSegment($jobId).'/constraints', $query, $pageNumber, $pageSize);
+    }
+
+    public function jobFlagHistory(string|int $jobId, array $query = [], int $pageNumber = 1, int $pageSize = self::MAX_PAGE_SIZE): BigChangePage
+    {
+        return $this->page('jobs/'.$this->pathSegment($jobId).'/flags/history', $query, $pageNumber, $pageSize);
+    }
+
+    public function jobActiveFlag(string|int $jobId): BigChangeResponse
+    {
+        return $this->get('jobs/'.$this->pathSegment($jobId).'/flags');
     }
 
     /** @param array<string, mixed> $query */
